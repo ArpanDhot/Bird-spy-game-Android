@@ -13,20 +13,34 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        //This is hiding the hide the OS bar
+        try
+        {
+            this.getSupportActionBar().hide();
+        }
+        catch (NullPointerException e){}
 
         //To make the windows full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        //Setting up the activity
+        setContentView(R.layout.activity_main);
+
+
+
+        //Timer to delay the loading of the next activity
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                 startActivity(intent);
-
             }
         }, 2000);
     }
