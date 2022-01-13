@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import androidx.appcompat.app.AppCompatActivity;
+
+//If you face issue of
 
 
-public class GameLoading extends AppCompatActivity {
+/**
+ * In this class I will load all of the resources and the surface view.
+ */
+public class GameLoading extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
