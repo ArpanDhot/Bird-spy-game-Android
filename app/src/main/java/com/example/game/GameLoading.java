@@ -6,7 +6,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
-//If you face issue of
+//If you face issue of the Intent not working just simply check if it declared in the manifest file
 
 
 /**
@@ -17,7 +17,7 @@ public class GameLoading extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        System.out.println("Getting Created");
+
         //To make the windows full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //To remove the activity bar

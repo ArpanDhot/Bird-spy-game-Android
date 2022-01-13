@@ -3,14 +3,24 @@ package com.example.game;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+//This class is going to handle every update and printing activity
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
+    private Player drone;
+    private Point dronePoint;
+//    private double snakeOldXPos = 0;
+//    private double snakeOldYPos = 0;
+//    private int snakeSpeed = 6;
+
+
+
 
     /**
      * @param context
@@ -24,6 +34,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         //Instantiating MainThread class that we made
         thread = new MainThread(getHolder(),this);
+
+        dronePoint = new Point(300,300);
+        drone = new Player(new Rect(0, 0, 50, 50), dronePoint);
+
 
         setFocusable(true);
 
@@ -86,12 +100,28 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     @Override
     public boolean onTouchEvent(MotionEvent event){
-        return  super.onTouchEvent(event);
+
+        //In order to move any object this is the method that will detect any touch on the surfaceView
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+
+                //Method in the Player class to the drone
+                drone.movement(event);
+
+                break;
+        }
+
+        //By making it true it will detect all the touches
+        return true;
+
+
+
     }
 
 
     public void update(){
-
+        drone.update();
     }
 
     /**
@@ -101,9 +131,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public  void  draw(Canvas canvas) {
         super.draw(canvas);
 
-Paint paint = new Paint();
-paint.setColor(Color.rgb(255, 255, 255));
-        canvas.drawCircle(200,200,100,paint);
+        drone.draw(canvas);
 
     }
 
