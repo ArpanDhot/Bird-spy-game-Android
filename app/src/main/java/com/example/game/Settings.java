@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Switch;
 
@@ -12,8 +13,8 @@ public class Settings extends AppCompatActivity {
 
 
     private Switch aSwitch;
-
     private SeekBar seekBar;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +34,13 @@ public class Settings extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //Setting up the activity
-
         setContentView(R.layout.activity_settings);
 
 
+        //Setting up the views by their ids
         aSwitch= findViewById(R.id.switchMusic);
-
         seekBar= findViewById(R.id.volumeBarMusic);
+        button= findViewById(R.id.defaultSettingsButton);
 
 
         aSwitch.setOnClickListener(e->{
@@ -73,6 +74,10 @@ public class Settings extends AppCompatActivity {
             }
         });
 
+
+        button.setOnClickListener(e->{
+            editor.clear();
+        });
 
 
     }
