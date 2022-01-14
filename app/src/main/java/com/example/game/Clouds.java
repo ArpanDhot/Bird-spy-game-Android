@@ -36,7 +36,7 @@ public class Clouds extends Position implements GameObject {
             this.setxPos(-300); //reset value from the left to right
         }
 
-        this.setyPos(random.nextInt(250)); //adding random y coordinate on each spawn
+        this.setyPos(random.nextInt(200)); //adding random y coordinate on each spawn
         this.setxVel(2 + random.nextInt(5)); //setting the velocity have a base value as 2 if zero come the lowest speed is going to be 2 and max is 2+5
     }
 
