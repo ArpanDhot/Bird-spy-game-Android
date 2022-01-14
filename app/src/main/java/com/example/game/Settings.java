@@ -2,6 +2,7 @@ package com.example.game;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.SeekBar;
@@ -10,13 +11,17 @@ import android.widget.Switch;
 public class Settings extends AppCompatActivity {
 
 
-    Switch aSwitch;
+    private Switch aSwitch;
 
-    SeekBar seekBar;
+    private SeekBar seekBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Setting up the database
+        SharedPreferences sharedPreferences = getSharedPreferences("gameSettings",0); //0 makes the data private mode
+        SharedPreferences.Editor editor = sharedPreferences.edit(); //Inorder to write into the database need to use the subclass editor
 
         //This is hiding the hide the OS bar
         try {
@@ -36,6 +41,37 @@ public class Settings extends AppCompatActivity {
 
         seekBar= findViewById(R.id.volumeBarMusic);
 
+
+        aSwitch.setOnClickListener(e->{
+
+            if(aSwitch.isChecked()){
+                //Turned On
+                editor.putBoolean("musicOnOff",true); //Creating an image of the data to store it in the database
+            }else{
+                //Turned Off
+                editor.putBoolean("musicOnOff",false);
+            }
+            editor.commit(); //Saving the database
+        });
+
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                editor.putInt("musicVolume",i); //Creating an image of the data to store it in the database
+                editor.commit(); //Saving the database
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
 
 

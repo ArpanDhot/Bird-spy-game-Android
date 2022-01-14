@@ -1,16 +1,21 @@
 package com.example.game;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 //This class is going to handle every update and printing activity
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+
+    private MediaPlayer backGroundMusic;
+    private SharedPreferences sharedPreferences;
 
     private MainThread thread;
     private Bird bird;
@@ -19,7 +24,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Clouds cloudTwo;
     private Land land;
 
-
+    private boolean musicOnOff;
+    private int musicVolume;
 
     /**
      * @param context
@@ -34,6 +40,29 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         //Instantiating MainThread class that we made
         thread = new MainThread(getHolder(),this);
 
+        /**
+         * PUT ANY CODE AFTER THIS
+         */
+
+        //Instance of the music data
+        sharedPreferences = context.getSharedPreferences("gameSettings",0);
+        //If the user has not initialised the data base. Therefore it will be returning nothing in that case we will require to have a default value.
+        // In this instance we set it to true, therefore the music is going to be On by default.
+        musicOnOff= sharedPreferences.getBoolean("musicOnOff",true);
+        // In this instance we set it to 50, therefore the music volume is going to have a volume of 50.
+        musicVolume = sharedPreferences.getInt("musicVolume",50);
+
+        //Setting up the background music
+        backGroundMusic = MediaPlayer.create(context, R.raw.main_background_music); //assigning the track to the MediaPlayer
+        int setVolume =  musicVolume; //Choosing volume amount
+        final float volume = (float) (1 - (Math.log(100 - setVolume) / Math.log(100))); //formula for int to volume conversion in form of float
+        backGroundMusic.setVolume(volume, volume); //Setting up the volume . The range of the setVolume method is from 0.0f to 1.0f
+        if(musicOnOff){
+            backGroundMusic.start();
+        }
+
+
+        //TODO got to change this
         birdPoint = new Point(300,300);
         bird = new Bird(new Rect(0, 0, 50, 50), birdPoint,getContext());
 
@@ -43,6 +72,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         //Instance of Land
         land = new Land(getContext());
+
+        /**
+         * PUT ANY CODE BEFORE THIS
+         */
 
         setFocusable(true);
 
