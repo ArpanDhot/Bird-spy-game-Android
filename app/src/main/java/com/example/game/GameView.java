@@ -22,6 +22,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
     private Bird bird;
     private Point birdPoint;
+    private Ship ship;
+    private Point shipPoint;
+    private Plane plane;
+    private Point planePoint;
+
     private Clouds cloudOne;
     private Clouds cloudTwo;
     private Clouds cloudThree;
@@ -68,6 +73,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         //TODO got to change this
         birdPoint = new Point(300,300);
         bird = new Bird(new Rect(0, 0, 50, 50), birdPoint,getContext());
+
+        shipPoint = new Point(200,585);
+        ship = new Ship(new Rect(0,0,50,50),shipPoint,getContext());
+
+        planePoint = new Point(200,100);
+        plane = new Plane(new Rect(0,0,50,50),planePoint,getContext());
 
         //Instance of Cloud
         cloudOne = new Clouds(getContext(),0);
@@ -174,6 +185,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void update(){
 
         bird.update();
+        ship.update();
+        plane.update();
     }
 
 
@@ -187,6 +200,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawColor(Color.WHITE);
 
         bird.draw(canvas);
+        ship.draw(canvas);
+        plane.draw(canvas);
 
         cloudOne.draw(canvas);
         cloudTwo.draw(canvas);

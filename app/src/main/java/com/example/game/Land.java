@@ -51,6 +51,9 @@ public class Land implements GameObject {
         canvas.drawBitmap(resizedBitmap0, 640, 770, null);
         canvas.drawBitmap(resizedBitmap1, 720, 770, null);
         canvas.drawBitmap(resizedBitmap2, 800, 770, null);
+        canvas.drawBitmap(resizedBitmap0, 871, 770, null);
+        canvas.drawBitmap(resizedBitmap1, 940, 770, null);
+        canvas.drawBitmap(resizedBitmap2, 1010, 770, null);
 
 
         //setting up the terrain sprite
@@ -59,10 +62,8 @@ public class Land implements GameObject {
         Bitmap resizedBitmap6 = Bitmap.createScaledBitmap(land[6], 80, 70, true);
 
         //drawing the terrain block on the canvas
-        canvas.drawBitmap(resizedBitmap4, 871, 750, null);
-        canvas.drawBitmap(resizedBitmap5, 940, 750, null);
-        canvas.drawBitmap(resizedBitmap5, 1010, 750, null);
-        canvas.drawBitmap(resizedBitmap5, 1080, 750, null);
+
+        canvas.drawBitmap(resizedBitmap4, 1082, 750, null);
         canvas.drawBitmap(resizedBitmap5, 1150, 750, null);
         canvas.drawBitmap(resizedBitmap5, 1220, 750, null);
         canvas.drawBitmap(resizedBitmap5, 1290, 750, null);
@@ -73,17 +74,17 @@ public class Land implements GameObject {
 
 
         //setting up the size of the tree
-        Bitmap resizedBitmap7 = Bitmap.createScaledBitmap(land[7], 200, 300, true);
+        Bitmap resizedBitmap7 = Bitmap.createScaledBitmap(land[7], 140, 200, true);
 
         //drawing the tree on the canvas
-        canvas.drawBitmap(resizedBitmap7, 1300, 480, null);
+        canvas.drawBitmap(resizedBitmap7, 1328, 566, null);
 
 
-        //setting up the size of the tree
+        //setting up the size of the bush
         Bitmap resizedBitmap8 = Bitmap.createScaledBitmap(land[8], 60, 35, true);
 
         //drawing the tree on the canvas
-        canvas.drawBitmap(resizedBitmap8, 1330, 730, null);
+        canvas.drawBitmap(resizedBitmap8, 1330, 728, null);
 
 
     }
