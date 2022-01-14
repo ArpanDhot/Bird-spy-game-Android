@@ -2,7 +2,6 @@ package com.example.game;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.MotionEvent;
@@ -13,8 +12,9 @@ import android.view.SurfaceView;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
-    private Player drone;
-    private Point dronePoint;
+    private Player bird;
+    private Point birdPoint;
+    Clouds clouds;
 //    private double snakeOldXPos = 0;
 //    private double snakeOldYPos = 0;
 //    private int snakeSpeed = 6;
@@ -35,8 +35,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         //Instantiating MainThread class that we made
         thread = new MainThread(getHolder(),this);
 
-        dronePoint = new Point(300,300);
-        drone = new Player(new Rect(0, 0, 50, 50), dronePoint);
+        birdPoint = new Point(300,300);
+        bird = new Player(new Rect(0, 0, 50, 50), birdPoint);
+
+        clouds = new Clouds(getContext(),0);
 
 
         setFocusable(true);
@@ -107,7 +109,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             case MotionEvent.ACTION_MOVE:
 
                 //Method in the Player class to the drone
-                drone.movement(event);
+                bird.movement(event);
 
                 break;
         }
@@ -121,7 +123,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public void update(){
-        drone.update();
+        bird.update();
     }
 
     /**
@@ -131,7 +133,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public  void  draw(Canvas canvas) {
         super.draw(canvas);
 
-        drone.draw(canvas);
+        bird.draw(canvas);
+
+        clouds.draw(canvas);
 
     }
 
