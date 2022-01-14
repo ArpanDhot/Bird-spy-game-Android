@@ -22,6 +22,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Point birdPoint;
     private Clouds cloudOne;
     private Clouds cloudTwo;
+    private Clouds cloudThree;
     private Land land;
 
     private boolean musicOnOff;
@@ -69,6 +70,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         //Instance of Cloud
         cloudOne = new Clouds(getContext(),0);
         cloudTwo = new Clouds(getContext(),1);
+        cloudThree = new Clouds(getContext(),0);
 
         //Instance of Land
         land = new Land(getContext());
@@ -177,6 +179,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         cloudOne.draw(canvas);
         cloudTwo.draw(canvas);
+        cloudThree.draw(canvas);
 
         land.draw(canvas);
 

@@ -76,7 +76,9 @@ public class Settings extends AppCompatActivity {
 
 
         button.setOnClickListener(e->{
-            editor.clear();
+            editor.putBoolean("musicOnOff",false);
+            editor.putInt("musicVolume",0);
+            editor.commit(); //Saving the database
         });
 
 
