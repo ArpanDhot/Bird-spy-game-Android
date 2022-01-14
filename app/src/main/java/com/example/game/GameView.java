@@ -13,7 +13,7 @@ import android.view.SurfaceView;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
-    private Player bird;
+    private Bird bird;
     private Point birdPoint;
     private Clouds cloudOne;
     private Clouds cloudTwo;
@@ -35,7 +35,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread = new MainThread(getHolder(),this);
 
         birdPoint = new Point(300,300);
-        bird = new Player(new Rect(0, 0, 50, 50), birdPoint);
+        bird = new Bird(new Rect(0, 0, 50, 50), birdPoint,getContext());
 
         //Instance of Cloud
         cloudOne = new Clouds(getContext(),0);
