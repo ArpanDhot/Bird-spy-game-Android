@@ -1,6 +1,7 @@
 package com.example.game;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -16,13 +17,17 @@ import java.util.Timer;
 public class Bird extends Position implements GameObject {
 
     private Rect rectangle;
-    private int health=100;
+    private Paint paintText;
     private Bitmap birdHealth;
+    private Context context;
+
+    private int health=100;
     private double OldXPos = 0;
     private double OldYPos = 0;
     private int Speed = 6;
 
-    Paint paintText;
+
+
 
 
     /**
@@ -36,8 +41,10 @@ public class Bird extends Position implements GameObject {
         this.setxPos(point.x);
         this.setyPos(point.y);
 
+        this.context = context;
+
         //Setting up the heart
-        birdHealth = BitmapFactory.decodeResource(context.getResources(), R.drawable.heart);
+        birdHealth = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.heart);
 
 
         paintText = new Paint();
@@ -81,7 +88,7 @@ public class Bird extends Position implements GameObject {
         double yPos = event.getY();
         double xPos = event.getX();
 
-
+        //Checking if the older values of the y-axis was greater and current value is smaller that means velocity must be subtracted and if its vice versa I must increase it
         if (yPos >= OldYPos) {
             this.setyVel(+Speed);
         }
@@ -95,7 +102,8 @@ public class Bird extends Position implements GameObject {
         if (xPos <= OldXPos) { //Checking if the player goes out of bound
             this.setxVel(-Speed);
         }
-//                //Checking if the older values of the y-axis was greater and current value is smaller that means velocity must be subtracted and if its vice versa I must increase it
+
+
 //                if (yPos >= snakeOldYPos && player.getyPos() <= 1000) {
 //                    player.setyVel(+snakeSpeed);
 //                }
@@ -129,9 +137,12 @@ public class Bird extends Position implements GameObject {
      * I just had to (getXPos() - rectangle.width() / 2)+velX  if I do it the way I code in java fx
      */
     public void update(int velX, int velY) {
-        this.setxPos(this.getxPos()+velX);
-        this.setyPos(this.getyPos()+velY);
-        rectangle.set((this.getxPos() - rectangle.width() / 2) + velX, (this.getyPos() - rectangle.height() / 2) + velY, (this.getxPos() + rectangle.width() / 2) + velX, (this.getyPos() + rectangle.height() / 2) + velY);
+
+            this.setxPos(this.getxPos()+velX);
+            this.setyPos(this.getyPos()+velY);
+            rectangle.set((this.getxPos() - rectangle.width() / 2) + velX, (this.getyPos() - rectangle.height() / 2) + velY, (this.getxPos() + rectangle.width() / 2) + velX, (this.getyPos() + rectangle.height() / 2) + velY);
+
+
     }
 
     public Rect getRectangle() {

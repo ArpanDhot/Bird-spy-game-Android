@@ -1,6 +1,8 @@
 package com.example.game;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -146,8 +148,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
 
-                //Method in the Player class to the drone
-                bird.movement(event);
+                //This condition checks the bird health and when it becomes less then 0 triggers the game over
+                if(bird.getHealth()>0){
+                    //Method in the Player class to the drone
+                    bird.movement(event);
+                }else{
+                    Intent intent = new Intent(this.getContext(),GameOver.class);
+                    this.getContext().startActivity(intent);
+                    ((Activity)this.getContext()).finish();
+                }
 
                 break;
         }
