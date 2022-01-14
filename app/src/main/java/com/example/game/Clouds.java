@@ -47,7 +47,7 @@ public class Clouds extends Position implements GameObject {
     @Override
     public void draw(Canvas canvas) {
 
-        //                            This method allows to scale the image size
+                               //This method allows to scale the image size
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(cloud[cloudType], 200, 75, true);
         //drawing the Bitmap on to the canvas
         canvas.drawBitmap(resizedBitmap, this.getxPos(), this.getyPos(), null);

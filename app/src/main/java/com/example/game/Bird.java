@@ -19,12 +19,14 @@ public class Bird extends Position implements GameObject {
     private Rect rectangle;
     private Paint paintText;
     private Bitmap birdHealth;
+    private Bitmap birdSprite[] = new Bitmap[2];
     private Context context;
 
     private int health=100;
     private double OldXPos = 0;
     private double OldYPos = 0;
     private int Speed = 6;
+    private int directionForSprite=+1;
 
 
 
@@ -46,6 +48,10 @@ public class Bird extends Position implements GameObject {
         //Setting up the heart
         birdHealth = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.heart);
 
+        //Setting up the birdSprites
+        birdSprite[0] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.bl1);
+        birdSprite[1] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.br1);
+
 
         paintText = new Paint();
         paintText.setColor(Color.WHITE);
@@ -65,14 +71,29 @@ public class Bird extends Position implements GameObject {
      */
     @Override
     public void draw(Canvas canvas) {
-        //Setting up the rectangle color and drawing it
-        Paint paint = new Paint();
-        paint.setColor(Color.rgb(55,55,55));
-        canvas.drawRect(rectangle, paint);
+//        //Setting up the rectangle color and drawing it
+//        Paint paint = new Paint();
+//        paint.setColor(Color.rgb(55,55,55));
+//        canvas.drawRect(rectangle, paint);
+
+                                 //This method allows to scale the image size
+        Bitmap resizedBitmap0 = Bitmap.createScaledBitmap(birdSprite[0], 80, 60, true);
+        Bitmap resizedBitmap1 = Bitmap.createScaledBitmap(birdSprite[1], 80, 60, true);
+
+        //drawing the Bitmap on to the canvas
+        if(directionForSprite==+1){
+            canvas.drawBitmap(resizedBitmap1, this.getxPos(), this.getyPos(), null);
+        }
+        if(directionForSprite==-1){
+            canvas.drawBitmap(resizedBitmap0, this.getxPos(), this.getyPos(), null);
+        }
+
+
+
 
         //Printing the heart
-        Bitmap resizedBitmap0 = Bitmap.createScaledBitmap(birdHealth, 110, 100, true);
-        canvas.drawBitmap(resizedBitmap0,30,30,null);
+        Bitmap resizedBitmap3 = Bitmap.createScaledBitmap(birdHealth, 110, 100, true);
+        canvas.drawBitmap(resizedBitmap3,30,30,null);
 
         canvas.drawText(" "+health,40,90,paintText);
 
@@ -98,9 +119,11 @@ public class Bird extends Position implements GameObject {
 
         if (xPos >= OldXPos) {
             this.setxVel(+Speed);
+            directionForSprite= +1;
         }
         if (xPos <= OldXPos) { //Checking if the player goes out of bound
             this.setxVel(-Speed);
+            directionForSprite= -1;
         }
 
 
