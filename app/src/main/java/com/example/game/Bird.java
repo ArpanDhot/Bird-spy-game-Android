@@ -1,7 +1,6 @@
 package com.example.game;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,10 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.os.SystemClock;
 import android.view.MotionEvent;
-
-import java.util.Timer;
 
 public class Bird extends Position implements GameObject {
 
@@ -21,6 +17,7 @@ public class Bird extends Position implements GameObject {
     private Bitmap birdHealth;
     private Bitmap birdSpriteLeft[] = new Bitmap[4];
     private Bitmap birdSpriteRight[] = new Bitmap[4];
+    private Bitmap birdExplosionSprite[] = new Bitmap[7];
     private Context context;
 
     private int health = 99;
@@ -28,6 +25,9 @@ public class Bird extends Position implements GameObject {
     private double OldYPos = 0;
     private int Speed = 6;
     private int directionForSprite = +1;
+    private boolean birdExplosion=false;
+    private int birdSpriteIndex = 0;
+    private int explosionSpriteIndex=0;
 
 
     /**
@@ -58,6 +58,14 @@ public class Bird extends Position implements GameObject {
         birdSpriteRight[2] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.br3);
         birdSpriteRight[3] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.br4);
 
+        //Setting up the bird explosion
+        birdExplosionSprite[0] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.e1);
+        birdExplosionSprite[1] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.e2);
+        birdExplosionSprite[2] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.e3);
+        birdExplosionSprite[3] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.e4);
+        birdExplosionSprite[4] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.e5);
+        birdExplosionSprite[5] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.e6);
+        birdExplosionSprite[6] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.e7);
 
         paintText = new Paint();
         paintText.setColor(Color.WHITE);
@@ -67,12 +75,9 @@ public class Bird extends Position implements GameObject {
         //Setting up the points of the rectangle shape. This will draw the four points of the rectangle
         //left, top, right, bottom
         rectangle.set(point.x - rectangle.width() / 2, point.y - rectangle.height() / 2, point.x + rectangle.width() / 2, point.y + rectangle.height() / 2);
-
-        //
-        SystemClock.sleep(50);
     }
 
-    int i = 0;
+
 
     /**
      * @param canvas
@@ -80,27 +85,49 @@ public class Bird extends Position implements GameObject {
     @Override
     public void draw(Canvas canvas) {
 
-        Bitmap loadingSprite = null;
+        Bitmap resizedBirdSprite = null;
+        Bitmap resizedExplosionSprite = null;
 
         //drawing the Bitmap on to the canvas
         if (directionForSprite == -1) {
-            loadingSprite = Bitmap.createScaledBitmap(birdSpriteRight[i++], 80, 60, true);
+            resizedBirdSprite = Bitmap.createScaledBitmap(birdSpriteRight[birdSpriteIndex++], 80, 60, true);
         } else if (directionForSprite == +1) {
-            loadingSprite =  Bitmap.createScaledBitmap(birdSpriteLeft[i++], 80, 60, true);
+            resizedBirdSprite =  Bitmap.createScaledBitmap(birdSpriteLeft[birdSpriteIndex++], 80, 60, true);
         }
 
-        //Sprite count reset
-        if (i == 4){
-            i = 0;
+        //Bird sprite count reset
+        if (birdSpriteIndex == 4){
+            birdSpriteIndex = 0;
         }
 
         //drawing the Bitmap on to the canvas
-        canvas.drawBitmap(loadingSprite, this.getxPos() - 35, this.getyPos() - 25, null);
+        canvas.drawBitmap(resizedBirdSprite, this.getxPos() - 35, this.getyPos() - 25, null);
+
+
 
         //Printing the heart
         Bitmap resizedBitmap3 = Bitmap.createScaledBitmap(birdHealth, 110, 100, true);
         canvas.drawBitmap(resizedBitmap3, 30, 30, null);
         canvas.drawText(" " + health, 52, 90, paintText);
+
+
+
+        //Bird explosion set by the user true or false
+        if(birdExplosion){
+            //Resizing the explosion sprites
+            resizedExplosionSprite = Bitmap.createScaledBitmap(birdExplosionSprite[explosionSpriteIndex++], 80, 80, true); //Post incrementing the index variable that means it will assign the value as it is once it is assigned then it will increment.
+
+            //Bird sprite count reset
+            if (explosionSpriteIndex == 7){ //Resetting everything at end of the sprite that is 7
+                explosionSpriteIndex = 0; //Resetting the index back to zero so then the next collision will happen the sequence of execution will be right
+                birdExplosion =false; //setting back to false when the sprite sequence is ended
+            }
+
+            //drawing the Bitmap on to the canvas
+            canvas.drawBitmap(resizedExplosionSprite, this.getxPos() - 35, this.getyPos() - 25, null);
+        }
+
+
     }
 
 
@@ -168,5 +195,13 @@ public class Bird extends Position implements GameObject {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public boolean isBirdExplosion() {
+        return birdExplosion;
+    }
+
+    public void setBirdExplosion(boolean birdExplosion) {
+        this.birdExplosion = birdExplosion;
     }
 }

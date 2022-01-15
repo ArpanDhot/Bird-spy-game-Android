@@ -135,6 +135,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             if (Rect.intersects(bird.getRectangle(), shipBullet.getRectangle())) { //Checking if any element of the array list collides
                 shipBullet.setDead(true); //Setting the bullet is dead
                 bird.setHealth(bird.getHealth() - shipBullet.getBirdDamage()); //Setting new health to the bird
+                bird.setBirdExplosion(true);
             }
         }
 
