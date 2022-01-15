@@ -23,7 +23,7 @@ public class Bird extends Position implements GameObject {
     private Bitmap birdSpriteRight[] = new Bitmap[4];
     private Context context;
 
-    private int health = 100;
+    private int health = 99;
     private double OldXPos = 0;
     private double OldYPos = 0;
     private int Speed = 6;
@@ -100,7 +100,7 @@ public class Bird extends Position implements GameObject {
         //Printing the heart
         Bitmap resizedBitmap3 = Bitmap.createScaledBitmap(birdHealth, 110, 100, true);
         canvas.drawBitmap(resizedBitmap3, 30, 30, null);
-        canvas.drawText(" " + health, 40, 90, paintText);
+        canvas.drawText(" " + health, 52, 90, paintText);
     }
 
 

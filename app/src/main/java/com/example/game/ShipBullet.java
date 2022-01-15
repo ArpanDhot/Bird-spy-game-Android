@@ -127,4 +127,12 @@ public class ShipBullet extends Position implements GameObject {
     public void setDead(boolean dead) {
         this.dead = dead;
     }
+
+    public int getBirdDamage() {
+        return birdDamage;
+    }
+
+    public void setBirdDamage(int birdDamage) {
+        this.birdDamage = birdDamage;
+    }
 }
