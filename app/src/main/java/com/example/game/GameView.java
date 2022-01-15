@@ -13,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+
 //This class is going to handle every update and printing activity
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -32,6 +34,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private ScoreItem scoreItem;
     private Point scoreItemPoint;
+
+    private ArrayList<ShipBullet> shipBullets = new ArrayList<ShipBullet>();
+    private Point shipBulletPoint;
+    private int bulletSpawnTimer=0;
 
     private Clouds cloudOne;
     private Clouds cloudTwo;
@@ -89,6 +95,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         scoreItemPoint = new Point(400, 400);
         scoreItem = new ScoreItem(new Rect(0, 0, 50, 50), scoreItemPoint, getContext());
 
+        shipBulletPoint = new Point(ship.getxPos()+150,ship.getyPos()+110);
+        shipBullets.add(new ShipBullet(new Rect(0, 0, 30, 30), shipBulletPoint, getContext()));
 
         //Instance of Cloud
         cloudOne = new Clouds(getContext(),0);
@@ -111,6 +119,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     /**
      * MY METHODS
      */
+
+    private void shipBullet() {
+
+        if(bulletSpawnTimer == 200){
+
+            shipBulletPoint.set(ship.getxPos()+150,ship.getyPos()+110);
+            shipBullets.add(new ShipBullet(new Rect(0, 0, 30, 30), shipBulletPoint, getContext())) ;
+            bulletSpawnTimer=0;
+
+        }else{
+            bulletSpawnTimer++;
+        }
+
+        System.out.println( bulletSpawnTimer);
+    }
 
     private void scoreBird() {
 
@@ -235,6 +258,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ship.update();
         plane.update();
 
+        for(ShipBullet shipBullet: shipBullets ){
+            shipBullet.update();
+            System.out.println(shipBullet.getxPos());
+        }
+
         scoreBird();
     }
 
@@ -258,7 +286,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         cloudTwo.draw(canvas);
         cloudThree.draw(canvas);
 
-
+        for(ShipBullet shipBullet: shipBullets ){
+            shipBullet.draw(canvas);
+            System.out.println(shipBullet.getxPos());
+        }
 
         land.draw(canvas);
 

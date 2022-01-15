@@ -19,22 +19,21 @@ public class Bird extends Position implements GameObject {
     private Rect rectangle;
     private Paint paintText;
     private Bitmap birdHealth;
-    private Bitmap birdSprite[] = new Bitmap[2];
+    private Bitmap birdSpriteLeft[] = new Bitmap[4];
+    private Bitmap birdSpriteRight[] = new Bitmap[4];
     private Context context;
 
-    private int health=100;
+    private int health = 100;
     private double OldXPos = 0;
     private double OldYPos = 0;
     private int Speed = 6;
-    private int directionForSprite=+1;
-
-
-
+    private int directionForSprite = +1;
 
 
     /**
      * In order for the update to work with the velocity I need to pass point and that store the point values to x and y.
      * If I pass x and y then set point it will give errors
+     *
      * @param rectangle
      * @param point
      */
@@ -49,8 +48,15 @@ public class Bird extends Position implements GameObject {
         birdHealth = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.heart);
 
         //Setting up the birdSprites
-        birdSprite[0] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.bl1);
-        birdSprite[1] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.br1);
+        birdSpriteLeft[0] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.bl1);
+        birdSpriteLeft[1] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.bl2);
+        birdSpriteLeft[2] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.bl3);
+        birdSpriteLeft[3] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.bl4);
+
+        birdSpriteRight[0] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.br1);
+        birdSpriteRight[1] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.br2);
+        birdSpriteRight[2] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.br3);
+        birdSpriteRight[3] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.br4);
 
 
         paintText = new Paint();
@@ -66,45 +72,42 @@ public class Bird extends Position implements GameObject {
         SystemClock.sleep(50);
     }
 
+    int i = 0;
+
     /**
      * @param canvas
      */
     @Override
     public void draw(Canvas canvas) {
-//        //Setting up the rectangle color and drawing it
-//        Paint paint = new Paint();
-//        paint.setColor(Color.rgb(55,55,55));
-//        canvas.drawRect(rectangle, paint);
 
-                                 //This method allows to scale the image size
-        Bitmap resizedBitmap0 = Bitmap.createScaledBitmap(birdSprite[0], 80, 60, true);
-        Bitmap resizedBitmap1 = Bitmap.createScaledBitmap(birdSprite[1], 80, 60, true);
+        Bitmap loadingSprite = null;
 
         //drawing the Bitmap on to the canvas
-        if(directionForSprite==+1){
-            canvas.drawBitmap(resizedBitmap1, this.getxPos()-35, this.getyPos()-25, null);
+        if (directionForSprite == -1) {
+            loadingSprite = Bitmap.createScaledBitmap(birdSpriteRight[i++], 80, 60, true);
+        } else if (directionForSprite == +1) {
+            loadingSprite =  Bitmap.createScaledBitmap(birdSpriteLeft[i++], 80, 60, true);
         }
-        if(directionForSprite==-1){
-            canvas.drawBitmap(resizedBitmap0, this.getxPos()-35, this.getyPos()-25, null);
+
+        //Sprite count reset
+        if (i == 4){
+            i = 0;
         }
 
-
-
+        //drawing the Bitmap on to the canvas
+        canvas.drawBitmap(loadingSprite, this.getxPos() - 35, this.getyPos() - 25, null);
 
         //Printing the heart
         Bitmap resizedBitmap3 = Bitmap.createScaledBitmap(birdHealth, 110, 100, true);
-        canvas.drawBitmap(resizedBitmap3,30,30,null);
-
-        canvas.drawText(" "+health,40,90,paintText);
-
+        canvas.drawBitmap(resizedBitmap3, 30, 30, null);
+        canvas.drawText(" " + health, 40, 90, paintText);
     }
 
 
-    //TODO set the bounds so the bird will not go out
     /**
      * @param event
      */
-    public void movement(MotionEvent event){
+    public void movement(MotionEvent event) {
 
         double yPos = event.getY();
         double xPos = event.getX();
@@ -119,27 +122,12 @@ public class Bird extends Position implements GameObject {
 
         if (xPos >= OldXPos) {
             this.setxVel(+Speed);
-            directionForSprite= +1;
+            directionForSprite = +1;
         }
         if (xPos <= OldXPos) { //Checking if the player goes out of bound
             this.setxVel(-Speed);
-            directionForSprite= -1;
+            directionForSprite = -1;
         }
-
-
-//                if (yPos >= snakeOldYPos && player.getyPos() <= 1000) {
-//                    player.setyVel(+snakeSpeed);
-//                }
-//                if (yPos <= snakeOldYPos && player.getyPos() >= 70) { //Checking if the player goes out of bound
-//                    player.setyVel(-snakeSpeed);
-//                }
-//
-//                if (xPos >= snakeOldXPos && player.getxPos() <= 1000) {
-//                    player.setxVel(+snakeSpeed);
-//                }
-//                if (xPos <= snakeOldXPos && player.getxPos() >= 70) { //Checking if the player goes out of bound
-//                    player.setxVel(-snakeSpeed);
-//                }
 
         //storing the older values to compare it in the conditions
         OldXPos = event.getX();
@@ -161,11 +149,9 @@ public class Bird extends Position implements GameObject {
      */
     public void update(int velX, int velY) {
 
-            this.setxPos(this.getxPos()+velX);
-            this.setyPos(this.getyPos()+velY);
-            rectangle.set((this.getxPos() - rectangle.width() / 2) + velX, (this.getyPos() - rectangle.height() / 2) + velY, (this.getxPos() + rectangle.width() / 2) + velX, (this.getyPos() + rectangle.height() / 2) + velY);
-
-
+        this.setxPos(this.getxPos() + velX);
+        this.setyPos(this.getyPos() + velY);
+        rectangle.set((this.getxPos() - rectangle.width() / 2) + velX, (this.getyPos() - rectangle.height() / 2) + velY, (this.getxPos() + rectangle.width() / 2) + velX, (this.getyPos() + rectangle.height() / 2) + velY);
     }
 
     public Rect getRectangle() {
