@@ -20,12 +20,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private SharedPreferences sharedPreferences;
 
     private MainThread thread;
+
     private Bird bird;
     private Point birdPoint;
+
     private Ship ship;
     private Point shipPoint;
+
     private Plane plane;
     private Point planePoint;
+
+    private ScoreItem scoreItem;
+    private Point scoreItemPoint;
 
     private Clouds cloudOne;
     private Clouds cloudTwo;
@@ -70,7 +76,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
 
-        //TODO got to change this
+        //All the main objects
         birdPoint = new Point(300,300);
         bird = new Bird(new Rect(0, 0, 50, 50), birdPoint,getContext());
 
@@ -79,6 +85,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         planePoint = new Point(200,100);
         plane = new Plane(new Rect(0,0,50,50),planePoint,getContext());
+
+        scoreItemPoint = new Point(400, 400);
+        scoreItem = new ScoreItem(new Rect(0, 0, 50, 50), scoreItemPoint, getContext());
+
 
         //Instance of Cloud
         cloudOne = new Clouds(getContext(),0);
@@ -96,6 +106,43 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
+
+
+    /**
+     * MY METHODS
+     */
+
+    private void scoreBird() {
+
+        if(scoreItem.getScoreCount()<9) { //This condition makes sure that the score count doesn't go above 9 and it forces the player to drop the items
+            if (Rect.intersects(bird.getRectangle(), scoreItem.getRectangle())) {// Checking if the bird is colliding with the item. If so then update item position and score count
+                scoreItem.updateMovement();
+                scoreItem.setScoreCount(scoreItem.getScoreCount() + 1);
+            }
+
+            if ((bird.getxPos() > 1338 && bird.getxPos() < 1458) && (bird.getyPos() > 594 && bird.getyPos() < 672)) {//Checking if the bird is in a specific area that is the tree. If so remove score count and add to the score display
+
+                if (scoreItem.getScoreCount() != 0) {
+                    scoreItem.setScoreCount(scoreItem.getScoreCount() - 1);
+                    scoreItem.setScoreDisplayCount(scoreItem.getScoreDisplayCount() + 1);
+                }
+            }
+        }else{
+            if ((bird.getxPos() > 1338 && bird.getxPos() < 1458) && (bird.getyPos() > 594 && bird.getyPos() < 672)) {//Checking if the bird is in a specific area that is the tree. If so remove score count and add to the score display
+
+                if (scoreItem.getScoreCount() != 0) {
+                    scoreItem.setScoreCount(scoreItem.getScoreCount() - 1);
+                    scoreItem.setScoreDisplayCount(scoreItem.getScoreDisplayCount() + 1);
+                }
+            }
+        }
+
+    }
+
+
+    /**
+     * MY METHODS END
+     */
 
 
 
@@ -187,6 +234,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         bird.update();
         ship.update();
         plane.update();
+
+        scoreBird();
     }
 
 
@@ -203,9 +252,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ship.draw(canvas);
         plane.draw(canvas);
 
+        scoreItem.draw(canvas);
+
         cloudOne.draw(canvas);
         cloudTwo.draw(canvas);
         cloudThree.draw(canvas);
+
+
 
         land.draw(canvas);
 

@@ -82,10 +82,10 @@ public class Bird extends Position implements GameObject {
 
         //drawing the Bitmap on to the canvas
         if(directionForSprite==+1){
-            canvas.drawBitmap(resizedBitmap1, this.getxPos(), this.getyPos(), null);
+            canvas.drawBitmap(resizedBitmap1, this.getxPos()-35, this.getyPos()-25, null);
         }
         if(directionForSprite==-1){
-            canvas.drawBitmap(resizedBitmap0, this.getxPos(), this.getyPos(), null);
+            canvas.drawBitmap(resizedBitmap0, this.getxPos()-35, this.getyPos()-25, null);
         }
 
 
