@@ -19,6 +19,9 @@ import java.util.ArrayList;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MediaPlayer backGroundMusic;
+    private MediaPlayer birdHitSound;
+    private MediaPlayer birdEatSound;
+    private MediaPlayer birdItemSound;
     private SharedPreferences sharedPreferences;
 
     private MainThread thread;
@@ -81,6 +84,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             backGroundMusic.start();
         }
 
+        //Setting up the bird hit sound (Rest of the code at line 144)
+        birdHitSound = MediaPlayer.create(context, R.raw.hit); //assigning the track to the MediaPlayer
+
+        //Setting up the bird eat sound (Rest of the code at line 170)
+        birdItemSound = MediaPlayer.create(context, R.raw.collect_item); //assigning the track to the MediaPlayer
+
+        //Setting up the bird eat sound (Rest of the code at line 186)
+        birdEatSound = MediaPlayer.create(context, R.raw.eat); //assigning the track to the MediaPlayer
+
+
 
         //All the main objects
         birdPoint = new Point(300, 300);
@@ -135,12 +148,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             if (Rect.intersects(bird.getRectangle(), shipBullet.getRectangle())) { //Checking if any element of the array list collides
                 shipBullet.setDead(true); //Setting the bullet is dead
                 bird.setHealth(bird.getHealth() - shipBullet.getBirdDamage()); //Setting new health to the bird
-                bird.setBirdExplosion(true);
+                bird.setBirdExplosion(true); //Triggering the bird explosion
+
+                //Setting up bird hitting sound
+                int setVolume = musicVolume; //Choosing volume amount
+                final float volume = (float) (1 - (Math.log(100 - setVolume) / Math.log(100))); //formula for int to volume conversion in form of float
+                birdHitSound.setVolume(volume, volume); //Setting up the volume . The range of the setVolume method is from 0.0f to 1.0f
+                if (musicOnOff) {
+                    birdHitSound.start();
+                }
             }
         }
 
         shipBullets.removeIf(shipBullet -> (shipBullet.isDead())); //Checking if the bullet is dead if so we gonna remove it
     }
+
 
 
     private void scoreBird() {
@@ -151,6 +173,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             if (Rect.intersects(bird.getRectangle(), scoreItem.getRectangle())) {
                 scoreItem.updateMovement();
                 scoreItem.setScoreCount(scoreItem.getScoreCount() + 1);
+
+                //Setting up bird eating sound
+                //It will only get triggered if the bird has collected any food but must be more than 0
+                int setVolume = musicVolume; //Choosing volume amount
+                final float volume = (float) (1 - (Math.log(100 - setVolume) / Math.log(100))); //formula for int to volume conversion in form of float
+                birdItemSound.setVolume(volume, volume); //Setting up the volume . The range of the setVolume method is from 0.0f to 1.0f
+                if (musicOnOff) {
+                    birdItemSound.start();
+                }
             }
 
             //Checking if the bird is in a specific area that is the tree. If so remove score count and add to the score display
@@ -159,7 +190,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 if (scoreItem.getScoreCount() != 0) {
                     scoreItem.setScoreCount(scoreItem.getScoreCount() - 1);
                     scoreItem.setScoreDisplayCount(scoreItem.getScoreDisplayCount() + 1);
+
+                    //Setting up bird eating sound
+                    //It will only get triggered if the bird has collected any food but must be more than 0
+                    int setVolume = musicVolume; //Choosing volume amount
+                    final float volume = (float) (1 - (Math.log(100 - setVolume) / Math.log(100))); //formula for int to volume conversion in form of float
+                    birdEatSound.setVolume(volume, volume); //Setting up the volume . The range of the setVolume method is from 0.0f to 1.0f
+                    if (musicOnOff) {
+                        birdEatSound.start();
+                    }
                 }
+
+
             }
         } else {
             //Checking if the bird is in a specific area that is the tree. If so remove score count and add to the score display
@@ -168,7 +210,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 if (scoreItem.getScoreCount() != 0) {
                     scoreItem.setScoreCount(scoreItem.getScoreCount() - 1);
                     scoreItem.setScoreDisplayCount(scoreItem.getScoreDisplayCount() + 1);
+
+                    //Setting up bird eating sound
+                    int setVolume = musicVolume; //Choosing volume amount
+                    final float volume = (float) (1 - (Math.log(100 - setVolume) / Math.log(100))); //formula for int to volume conversion in form of float
+                    birdEatSound.setVolume(volume, volume); //Setting up the volume . The range of the setVolume method is from 0.0f to 1.0f
+                    if (musicOnOff) {
+                        birdEatSound.start();
+                    }
                 }
+
             }
         }
 
@@ -181,6 +232,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     //These methods are same to the default activity run cycle that saad explained
+
     /**
      * This is called immediately after any structural changes (format or size) have been made to the surface
      *
