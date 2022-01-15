@@ -16,10 +16,6 @@ public class Plane extends Position implements GameObject {
     private int speed = 4;
     private int directionForSprite=+1;
 
-
-
-
-
     /**
      * In order for the update to work with the velocity I need to pass point and that store the point values to x and y.
      * If I pass x and y then set point it will give errors
@@ -39,8 +35,6 @@ public class Plane extends Position implements GameObject {
         planeSprite[0] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.planel);
         planeSprite[1] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.planer);
 
-
-
         //Setting up the points of the rectangle shape. This will draw the four points of the rectangle
         //left, top, right, bottom
         rectangle.set(point.x - rectangle.width() / 2, point.y - rectangle.height() / 2, point.x + rectangle.width() / 2, point.y + rectangle.height() / 2);
@@ -53,7 +47,6 @@ public class Plane extends Position implements GameObject {
     @Override
     public void draw(Canvas canvas) {
 
-
         //This method allows to scale the image size
         Bitmap resizedBitmap0 = Bitmap.createScaledBitmap(planeSprite[0], 200, 100, true);
         Bitmap resizedBitmap1 = Bitmap.createScaledBitmap(planeSprite[1], 200, 100, true);
@@ -65,9 +58,6 @@ public class Plane extends Position implements GameObject {
         if(directionForSprite==-1){
             canvas.drawBitmap(resizedBitmap0, this.getxPos(), this.getyPos(), null);
         }
-
-
-
     }
 
 
@@ -83,7 +73,6 @@ public class Plane extends Position implements GameObject {
             directionForSprite=+1;
         }
         updateMovement(this.getxVel(), 0);
-
     }
 
 
@@ -101,8 +90,6 @@ public class Plane extends Position implements GameObject {
         this.setxPos(this.getxPos()+velX);
         this.setyPos(this.getyPos()+velY);
         rectangle.set((this.getxPos() - rectangle.width() / 2) + velX, (this.getyPos() - rectangle.height() / 2) + velY, (this.getxPos() + rectangle.width() / 2) + velX, (this.getyPos() + rectangle.height() / 2) + velY);
-
-
     }
 
     public Rect getRectangle() {

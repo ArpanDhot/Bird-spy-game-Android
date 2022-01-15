@@ -132,7 +132,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             bulletSpawnTimer++;
         }
 
-        System.out.println( bulletSpawnTimer);
+        for(ShipBullet shipBullet: shipBullets ){
+            if(Rect.intersects(bird.getRectangle(),shipBullet.getRectangle())){
+                shipBullet.setDead(true);
+            }
+        }
+
+
+
     }
 
     private void scoreBird() {
@@ -263,7 +270,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             System.out.println(shipBullet.getxPos());
         }
 
+        //Self made methods
         scoreBird();
+        shipBullet();
     }
 
 

@@ -16,10 +16,6 @@ public class Ship extends Position implements GameObject {
     private int speed = 1;
     private int directionForSprite=+1;
 
-
-
-
-
     /**
      * In order for the update to work with the velocity I need to pass point and that store the point values to x and y.
      * If I pass x and y then set point it will give errors
@@ -35,13 +31,9 @@ public class Ship extends Position implements GameObject {
 
         this.setxVel(speed);
 
-
-
         //Setting up the birdSprites
         shipSprite[0] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.shipl);
         shipSprite[1] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.shipr);
-
-
 
         //Setting up the points of the rectangle shape. This will draw the four points of the rectangle
         //left, top, right, bottom
@@ -55,7 +47,6 @@ public class Ship extends Position implements GameObject {
     @Override
     public void draw(Canvas canvas) {
 
-
         //This method allows to scale the image size
         Bitmap resizedBitmap0 = Bitmap.createScaledBitmap(shipSprite[0], 350, 200, true);
         Bitmap resizedBitmap1 = Bitmap.createScaledBitmap(shipSprite[1], 350, 200, true);
@@ -67,8 +58,6 @@ public class Ship extends Position implements GameObject {
         if(directionForSprite==+1){
             canvas.drawBitmap(resizedBitmap0, this.getxPos(), this.getyPos(), null);
         }
-
-
 
     }
 
