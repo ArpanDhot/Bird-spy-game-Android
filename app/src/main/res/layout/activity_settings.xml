@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
         android:text="SETTINGS"
-        android:textColor="#000000"
         android:textSize="20sp" />
 
     <LinearLayout
@@ -36,17 +35,14 @@
                 android:layout_height="50dp"
                 android:fontFamily="sans-serif-black"
                 android:gravity="center"
-                android:text="MUSIC ON/OFF"
-                android:textColor="#000000" />
+                android:text="MUSIC ON/OFF" />
 
             <Switch
                 android:id="@+id/switchMusic"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
-                android:backgroundTint="#FF9800"
                 android:fontFamily="sans-serif-black"
-                android:text="Switch"
-                android:textColor="#000000" />
+                android:text="Switch" />
         </LinearLayout>
 
         <LinearLayout
@@ -61,8 +57,7 @@
                 android:layout_height="50dp"
                 android:fontFamily="sans-serif-black"
                 android:gravity="center"
-                android:text="MUSIC VOLUME"
-                android:textColor="#000000" />
+                android:text="MUSIC VOLUME" />
 
             <SeekBar
                 android:id="@+id/volumeBarMusic"
@@ -77,6 +72,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:backgroundTint="#A5C3D7"
+        android:fontFamily="sans-serif-black"
         android:text="Default Settings"
         app:cornerRadius="20dp" />
 </LinearLayout>
