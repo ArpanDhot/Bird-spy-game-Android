@@ -5,6 +5,7 @@
     android:id="@+id/menuLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/menu_background"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".MenuActivity">
@@ -14,6 +15,8 @@
         android:layout_width="170dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
+        android:backgroundTint="#A5C3D7"
+        android:fontFamily="sans-serif-black"
         android:text="New Game"
         app:cornerRadius="20dp" />
 
@@ -22,6 +25,8 @@
         android:layout_width="170dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
+        android:backgroundTint="#A5C3D7"
+        android:fontFamily="sans-serif-black"
         android:text="Load Game"
         app:cornerRadius="20dp" />
 
@@ -30,6 +35,8 @@
         android:layout_width="170dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
+        android:backgroundTint="#A5C3D7"
+        android:fontFamily="sans-serif-black"
         android:text="Settings"
         app:cornerRadius="20dp" />
 
@@ -38,6 +45,8 @@
         android:layout_width="170dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
+        android:backgroundTint="#A5C3D7"
+        android:fontFamily="sans-serif-black"
         android:text="Help"
         app:cornerRadius="20dp" />
 </LinearLayout>
