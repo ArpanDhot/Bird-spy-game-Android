@@ -21,9 +21,9 @@ public class Bird extends Position implements GameObject {
     private Context context;
 
     private int health = 99;
-    private double OldXPos = 0;
-    private double OldYPos = 0;
-    private int Speed = 6;
+    private double oldXPos = 0;
+    private double oldYPos = 0;
+    private int speed = 6;
     private int directionForSprite = +1;
     private boolean birdExplosion=false;
     private int birdSpriteIndex = 0;
@@ -140,25 +140,25 @@ public class Bird extends Position implements GameObject {
         double xPos = event.getX();
 
         //Checking if the older values of the y-axis was greater and current value is smaller that means velocity must be subtracted and if its vice versa I must increase it
-        if (yPos >= OldYPos) {
-            this.setyVel(+Speed);
+        if (yPos >= oldYPos) {
+            this.setyVel(+speed);
         }
-        if (yPos <= OldYPos) { //Checking if the player goes out of bound
-            this.setyVel(-Speed);
+        if (yPos <= oldYPos) { //Checking if the player goes out of bound
+            this.setyVel(-speed);
         }
 
-        if (xPos >= OldXPos) {
-            this.setxVel(+Speed);
+        if (xPos >= oldXPos) {
+            this.setxVel(+speed);
             directionForSprite = +1;
         }
-        if (xPos <= OldXPos) { //Checking if the player goes out of bound
-            this.setxVel(-Speed);
+        if (xPos <= oldXPos) { //Checking if the player goes out of bound
+            this.setxVel(-speed);
             directionForSprite = -1;
         }
 
         //storing the older values to compare it in the conditions
-        OldXPos = event.getX();
-        OldYPos = event.getY();
+        oldXPos = event.getX();
+        oldYPos = event.getY();
         this.update(this.getxVel(), this.getyVel());
         this.setyVel(0);
         this.setxVel(0);

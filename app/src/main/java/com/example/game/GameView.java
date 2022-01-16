@@ -40,7 +40,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private ArrayList<ShipBullet> shipBullets = new ArrayList<ShipBullet>();
     private Point shipBulletPoint;
-    private int bulletSpawnTimer = 0;
+    private int shipBulletSpawnTimer = 0;
+
+    private ArrayList<PlaneBullet> planeBullets = new ArrayList<>();
+    private Point planeBulletPoint;
 
     private Clouds cloudOne;
     private Clouds cloudTwo;
@@ -94,7 +97,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         birdEatSound = MediaPlayer.create(context, R.raw.eat); //assigning the track to the MediaPlayer
 
 
-
         //All the main objects
         birdPoint = new Point(300, 300);
         bird = new Bird(new Rect(0, 0, 50, 50), birdPoint, getContext());
@@ -110,6 +112,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         shipBulletPoint = new Point(ship.getxPos() + 150, ship.getyPos() + 110);
         shipBullets.add(new ShipBullet(new Rect(0, 0, 30, 30), shipBulletPoint, getContext()));
+
+        planeBulletPoint = new Point(plane.getxPos() + 100, plane.getyPos() + 100);
+        planeBullets.add(new PlaneBullet(new Rect(0, 0, 30, 30), planeBulletPoint, getContext(), bird));
 
         //Instance of Cloud
         cloudOne = new Clouds(getContext(), 0);
@@ -132,18 +137,47 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * MY METHODS
      */
 
+    private void planeBullet() {
+
+        if(planeBullets.size()==0){ //checking if there is no bullet than spawn a new bullet
+            planeBulletPoint = new Point(plane.getxPos() + 100, plane.getyPos() + 100); //Getting the new coordinates and assigning to the ship bullet
+            planeBullets.add(new PlaneBullet(new Rect(0, 0, 30, 30), planeBulletPoint, getContext(), bird)); //Adding a new object of ship bullet
+        }
+
+        //To declare the bullet dead if it intersects and reduce the bird health. Sound effect on collision
+        for (PlaneBullet planeBullet : planeBullets) {
+            if (Rect.intersects(bird.getRectangle(), planeBullet.getRectangle())) { //Checking if any element of the array list collides
+                planeBullet.setDead(true); //Setting the bullet is dead
+                bird.setHealth(bird.getHealth() - planeBullet.getBirdDamage()); //Setting new health to the bird
+                bird.setBirdExplosion(true); //Triggering the bird explosion
+
+                //Setting up bird hitting sound
+                int setVolume = musicVolume; //Choosing volume amount
+                final float volume = (float) (1 - (Math.log(100 - setVolume) / Math.log(100))); //formula for int to volume conversion in form of float
+                birdHitSound.setVolume(volume, volume); //Setting up the volume . The range of the setVolume method is from 0.0f to 1.0f
+                if (musicOnOff) {
+                    birdHitSound.start();
+                }
+            }
+        }
+
+        planeBullets.removeIf(planeBullet -> (planeBullet.isDead())); //Checking if the bullet is dead if so we gonna remove it
+    }
+
     private void shipBullet() {
 
-        if (bulletSpawnTimer == 200) { //Timer condition
+        //To spawn the bullet
+        if (shipBulletSpawnTimer == 200) { //Timer condition
 
             shipBulletPoint.set(ship.getxPos() + 150, ship.getyPos() + 110); //Getting the new coordinates and assigning to the ship bullet
             shipBullets.add(new ShipBullet(new Rect(0, 0, 30, 30), shipBulletPoint, getContext())); //Adding a new object of ship bullet
-            bulletSpawnTimer = 0; //Resetting the timer
+            shipBulletSpawnTimer = 0; //Resetting the timer
 
         } else {
-            bulletSpawnTimer++;
+            shipBulletSpawnTimer++;
         }
 
+        //To declare the bullet dead if it intersects and reduce the bird health. Sound effect on collision
         for (ShipBullet shipBullet : shipBullets) {
             if (Rect.intersects(bird.getRectangle(), shipBullet.getRectangle())) { //Checking if any element of the array list collides
                 shipBullet.setDead(true); //Setting the bullet is dead
@@ -161,8 +195,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         shipBullets.removeIf(shipBullet -> (shipBullet.isDead())); //Checking if the bullet is dead if so we gonna remove it
+        shipBullets.removeIf(shipBullet -> (shipBullet.getyPos() > 790));//When the bullet will cross that bound it will be removed from the array list.
     }
-
 
 
     private void scoreBird() {
@@ -321,14 +355,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ship.update();
         plane.update();
 
+        //Ship bullet update
         for (ShipBullet shipBullet : shipBullets) {
             shipBullet.update();
-            System.out.println(shipBullet.getxPos());
+        }
+
+        for (PlaneBullet planeBullet : planeBullets) {
+            planeBullet.update();
         }
 
         //Self made methods
         scoreBird();
         shipBullet();
+        planeBullet();
     }
 
 
@@ -353,7 +392,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         for (ShipBullet shipBullet : shipBullets) {
             shipBullet.draw(canvas);
-            System.out.println(shipBullet.getxPos());
+        }
+
+        for (PlaneBullet planeBullet : planeBullets) {
+            planeBullet.draw(canvas);
         }
 
         land.draw(canvas);
