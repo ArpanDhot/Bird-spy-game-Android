@@ -108,7 +108,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         plane = new Plane(new Rect(0, 0, 50, 50), planePoint, getContext());
 
         scoreItemPoint = new Point(400, 400);
-        scoreItem = new ScoreItem(new Rect(0, 0, 50, 50), scoreItemPoint, getContext());
+        scoreItem = new ScoreItem(new Rect(0, 0, 30, 30), scoreItemPoint, getContext());
 
         shipBulletPoint = new Point(ship.getxPos() + 150, ship.getyPos() + 110);
         shipBullets.add(new ShipBullet(new Rect(0, 0, 30, 30), shipBulletPoint, getContext()));

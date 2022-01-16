@@ -76,14 +76,14 @@ public class ScoreItem extends Position implements GameObject {
 
         //This method allows to scale the image size
         //Spawn item sprite
-        Bitmap resizedBitmap0 = Bitmap.createScaledBitmap(scoreSprite, 60, 60, true);
-        //Display ite, sprite
+        Bitmap resizedBitmap0 = Bitmap.createScaledBitmap(scoreSprite, 40, 40, true);
+        //Display item, sprite
         Bitmap resizedBitmap1 = Bitmap.createScaledBitmap(scoreCountSprite, 90, 80, true);
         Bitmap resizedBitmap2 = Bitmap.createScaledBitmap(scoreDisplayCountSprite, 110, 110, true);
 
         //drawing the Bitmap and text on to the canvas
         //Spawn item sprite
-        canvas.drawBitmap(resizedBitmap0, this.getxPos()-30, this.getyPos()-30, null);//I have subtracted the width and high from the x and y. So the stripe will align with the rectangle below and the collision will work perfectly
+        canvas.drawBitmap(resizedBitmap0, this.getxPos()-20, this.getyPos()-20, null);//I have subtracted the width and high from the x and y. So the stripe will align with the rectangle below and the collision will work perfectly
 
         //Display ite, sprite
         canvas.drawBitmap(resizedBitmap1, 140,32, null);
