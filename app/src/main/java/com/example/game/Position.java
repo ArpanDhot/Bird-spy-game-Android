@@ -67,6 +67,7 @@ public abstract class Position {
         this.yVel = yVel;
     }
 
+    public abstract void updatePos(int n1, int n2);
 
 
 }

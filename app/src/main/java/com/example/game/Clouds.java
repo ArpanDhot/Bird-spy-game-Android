@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.os.Handler;
 
 import java.util.Random;
 
@@ -70,5 +69,19 @@ public class Clouds extends Position implements GameObject {
     @Override
     public void update() {
 
+    }
+
+    /**
+     * Remouvi questo metodo perche non fa nulla
+     * @param n1
+     * @param n2
+     */
+    @Override
+    public void updatePos(int n1, int n2) {
+        int min;
+        if (n1 > n2)
+            min = n2;
+        else
+            min = n1;
     }
 }
