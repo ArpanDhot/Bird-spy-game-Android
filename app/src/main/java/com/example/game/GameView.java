@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -25,6 +27,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private SharedPreferences sharedPreferences;
 
     private MainThread thread;
+
+    private Bitmap canvasBackground;
 
     private Bird bird;
     private Point birdPoint;
@@ -69,6 +73,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         /**
          * PUT ANY CODE AFTER THIS
          */
+
+        canvasBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.mainbackground);
 
         //Instance of the music data
         sharedPreferences = context.getSharedPreferences("gameSettings", 0);
@@ -378,7 +384,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-        canvas.drawColor(Color.WHITE);
+        canvas.drawBitmap(canvasBackground, 0, 0, null);
 
         bird.draw(canvas);
         ship.draw(canvas);
