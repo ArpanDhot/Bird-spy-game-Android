@@ -335,15 +335,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
 
-                //This condition checks the bird health and when it becomes less then 0 triggers the game over
-                if (bird.getHealth() > 0) {
-                    //Method in the Player class to the drone
+                    //Calling the bird movement method
                     bird.movement(event);
-                } else {
-                    Intent intent = new Intent(this.getContext(), GameOver.class);
-                    this.getContext().startActivity(intent);
-                    ((Activity) this.getContext()).finish();
-                }
+
 
                 break;
         }
