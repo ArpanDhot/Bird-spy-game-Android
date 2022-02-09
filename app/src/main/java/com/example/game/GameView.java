@@ -17,8 +17,13 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -61,6 +66,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private boolean musicOnOff;
     private int musicVolume;
+
+    private int highScore;
 
     /**
      * @param context
@@ -134,6 +141,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         //Instance of Land
         land = new Land(getContext());
+
+        //Firebase
+        try{
+            FirebaseDatabase.getInstance().getReference().addListenerForSingleValueEvent(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                        highScore =  dataSnapshot.getValue(Integer.class);
+                        System.out.println("High Score "+highScore);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });}catch (Exception e){
+            System.out.println(e.getMessage());
+        }
 
         /**
          * PUT ANY CODE BEFORE THIS
