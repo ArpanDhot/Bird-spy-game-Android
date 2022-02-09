@@ -161,8 +161,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Toast.makeText(getContext(), "Data Added", Toast.LENGTH_SHORT).show();
-                            Log.d("err", "Hello Brother");
+                            System.out.println("Updated");
                         }
                     });
             
