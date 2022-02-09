@@ -11,9 +11,14 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -142,6 +147,31 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     /**
      * MY METHODS
      */
+    
+    
+    private void gameOver(){
+        
+        if(bird.getHealth()<0){
+
+            FirebaseDatabase
+                    .getInstance()
+                    .getReference()
+                    .child("Data")
+                    .setValue(scoreItem.getScoreDisplayCount())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(getContext(), "Data Added", Toast.LENGTH_SHORT).show();
+                            Log.d("err", "Hello Brother");
+                        }
+                    });
+            
+            
+        }
+        
+        
+        
+    }
 
     private void planeBullet() {
 
@@ -368,6 +398,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         scoreBird();
         shipBullet();
         planeBullet();
+
+        gameOver();
     }
 
 
