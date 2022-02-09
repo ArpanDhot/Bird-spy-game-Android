@@ -9,6 +9,13 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.Random;
 
 public class ScoreItem extends Position implements GameObject {
@@ -24,6 +31,11 @@ public class ScoreItem extends Position implements GameObject {
 
     private Bitmap scoreDisplayCountSprite;
     private Paint scoreDisplayCountPaint;
+
+    private Bitmap highScoreSprite;
+    private Paint highScorePaint;
+
+    private int highScore=0;
 
 
     private int scoreCount = 0;
@@ -50,6 +62,7 @@ public class ScoreItem extends Position implements GameObject {
         scoreSprite = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.strawberry);
         scoreCountSprite = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.scorecount);
         scoreDisplayCountSprite = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.scoredisplay);
+        highScoreSprite = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.trophy);
 
         //Setting up the Paint for item count as well as the item display
         scoreCountPaint = new Paint();
@@ -62,9 +75,33 @@ public class ScoreItem extends Position implements GameObject {
         scoreDisplayCountPaint.setStyle(Paint.Style.FILL);
         scoreDisplayCountPaint.setTextSize(35);
 
+        highScorePaint = new Paint();
+        highScorePaint.setColor(Color.BLACK);
+        highScorePaint.setStyle(Paint.Style.FILL);
+        highScorePaint.setTextSize(40);
+
         //Setting up the points of the rectangle shape. This will draw the four points of the rectangle
         //left, top, right, bottom
         rectangle.set(point.x - rectangle.width() / 2, point.y - rectangle.height() / 2, point.x + rectangle.width() / 2, point.y + rectangle.height() / 2);
+
+        //Firebase
+        try{
+            FirebaseDatabase.getInstance().getReference().addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                        highScore =  dataSnapshot.getValue(Integer.class);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });}catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
 
     }
 
@@ -80,6 +117,7 @@ public class ScoreItem extends Position implements GameObject {
         //Display item, sprite
         Bitmap resizedBitmap1 = Bitmap.createScaledBitmap(scoreCountSprite, 90, 80, true);
         Bitmap resizedBitmap2 = Bitmap.createScaledBitmap(scoreDisplayCountSprite, 110, 110, true);
+        Bitmap resizedBitmap3 = Bitmap.createScaledBitmap(highScoreSprite, 120, 90, true);
 
         //drawing the Bitmap and text on to the canvas
         //Spawn item sprite
@@ -90,6 +128,8 @@ public class ScoreItem extends Position implements GameObject {
         canvas.drawText("" + scoreCount, 175, 100, scoreCountPaint);
         canvas.drawBitmap(resizedBitmap2, 230,20, null);
         canvas.drawText("" + scoreDisplayCount, 265, 95, scoreDisplayCountPaint);
+        canvas.drawBitmap(resizedBitmap3, 1500,35, null);
+        canvas.drawText("" + highScore, 1550, 90, highScorePaint);
 
     }
 
