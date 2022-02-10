@@ -1,6 +1,8 @@
 package com.example.game;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,6 +19,8 @@ public class LevelCreate extends View {
     final long UPDATE_MILLIS = 30;
     private Handler handler;
     private Runnable runnable;
+
+    private Bitmap canvasBackground;
 
     //Touch detection rectangle
     private Point touchFollowPoint;
@@ -64,6 +68,8 @@ public class LevelCreate extends View {
                 invalidate();
             }
         };
+
+        canvasBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.mainbackground);
 
         textStyle = new Paint();
         textStyle.setColor(Color.BLACK);
@@ -151,7 +157,8 @@ public class LevelCreate extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawColor(Color.WHITE);
+
+        canvas.drawBitmap(canvasBackground, 0, 0, null);
 
         //Printing a of the block objects
         for (Block block : blocks) {
