@@ -31,6 +31,16 @@
         app:cornerRadius="20dp" />
 
     <Button
+        android:id="@+id/createLevelButton"
+        android:layout_width="170dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:backgroundTint="#A5C3D7"
+        android:fontFamily="sans-serif-black"
+        android:text="CREATE LEVEL"
+        app:cornerRadius="20dp" />
+
+    <Button
         android:id="@+id/settingsButton"
         android:layout_width="170dp"
         android:layout_height="50dp"

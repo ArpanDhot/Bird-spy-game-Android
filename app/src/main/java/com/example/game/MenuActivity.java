@@ -11,6 +11,7 @@ public class MenuActivity extends AppCompatActivity {
 
     private Button newGameButton;
     private Button loadGameButton;
+    private Button createLevelButton;
     private Button settingsButton;
     private Button helpButton;
 
@@ -38,13 +39,19 @@ public class MenuActivity extends AppCompatActivity {
         newGameButton = findViewById(R.id.newGameButton);
         newGameButton.setOnClickListener(e -> {
             Intent intentTwo = new Intent(MenuActivity.this,GameLoading.class);
-             startActivity(intentTwo);
+            startActivity(intentTwo);
 
         });
 
         loadGameButton = findViewById(R.id.loadGameButton);
         loadGameButton.setOnClickListener(e -> {
 
+        });
+
+        createLevelButton = findViewById(R.id.createLevelButton);
+        createLevelButton.setOnClickListener(e->{
+            LevelCreate levelCreate = new LevelCreate(getApplicationContext());
+            setContentView(levelCreate);
         });
 
         settingsButton = findViewById(R.id.settingsButton);
