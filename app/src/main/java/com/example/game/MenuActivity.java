@@ -38,13 +38,15 @@ public class MenuActivity extends AppCompatActivity {
         //Setting up the buttons by assigning their IDs
         newGameButton = findViewById(R.id.newGameButton);
         newGameButton.setOnClickListener(e -> {
-            Intent intentTwo = new Intent(MenuActivity.this,GameLoading.class);
-            startActivity(intentTwo);
+            Intent newGameIntent = new Intent(MenuActivity.this,GameLoading.class);
+            startActivity(newGameIntent);
 
         });
 
         loadGameButton = findViewById(R.id.loadGameButton);
         loadGameButton.setOnClickListener(e -> {
+            CustomGameView  customGameView = new CustomGameView(getApplicationContext());
+            setContentView(customGameView);
 
         });
 
@@ -56,8 +58,8 @@ public class MenuActivity extends AppCompatActivity {
 
         settingsButton = findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(e -> {
-            Intent intentTwo = new Intent(MenuActivity.this,Settings.class);
-            startActivity(intentTwo);
+            Intent settingsIntent = new Intent(MenuActivity.this,Settings.class);
+            startActivity(settingsIntent);
         });
 
         helpButton = findViewById(R.id.helpButton);
