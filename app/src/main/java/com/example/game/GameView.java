@@ -1,21 +1,16 @@
 package com.example.game;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -176,9 +171,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     
     
-    private void gameOver(){
-        
-        if(bird.getHealth()<0){
+    private void fireBaseScoreUpdate(){
+
+        if(scoreItem.getScoreDisplayCount()>highScore){
 
             FirebaseDatabase
                     .getInstance()
@@ -192,11 +187,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         }
                     });
             
-            
         }
-        
-        
-        
     }
 
     private void planeBullet() {
@@ -425,7 +416,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         shipBullet();
         planeBullet();
 
-        gameOver();
+        fireBaseScoreUpdate();
     }
 
 
