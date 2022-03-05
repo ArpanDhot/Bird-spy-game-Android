@@ -12,6 +12,8 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 
 public class LevelCreate extends View {
@@ -19,6 +21,7 @@ public class LevelCreate extends View {
     final long UPDATE_MILLIS = 30;
     private Handler handler;
     private Runnable runnable;
+    private JSONArray jsonArray;
 
     private Bitmap canvasBackground;
 
@@ -145,8 +148,29 @@ public class LevelCreate extends View {
 
         //To save the size of the block
         if (buttonSaveItemClickCount == 2) {
+
+            //To reset the Json array to empty
+            jsonArray = new JSONArray();
+
+            //Loading objects onto the Json array
+            int i = 0;
+            for (Block block : blocks) {
+                //Adding the JSON objects in the JSON Array
+                //The JSON objects are created in the Block class
+                jsonArray.put(block.getJson("Block" + i));
+                i++;
+                System.out.println("Elements SAVED: "+i);
+            }
+
+
+            JSONDatabaseManager jsonDatabaseManager = new JSONDatabaseManager(this.getContext());
+            jsonDatabaseManager.jsonWriteData("jsonDataBase", jsonArray);
+
+            //TODO DO NOT REMOVE ANYTHING BELLOW
             System.out.println("SAVE");
             buttonSaveItemClickCount = 0;
+
+
         }
 
     }

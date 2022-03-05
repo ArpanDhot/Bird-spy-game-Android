@@ -10,6 +10,9 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -23,6 +26,10 @@ public class CustomGameView extends SurfaceView implements SurfaceHolder.Callbac
 
     private ArrayList<PlaneBullet> aiDrones = new ArrayList<>();
     private Point aiDronePoint;
+
+    private ArrayList<Block> blocks = new ArrayList<>();
+    private Point blockPoint;
+
 
     private Bitmap canvasBackground;
 
@@ -47,11 +54,47 @@ public class CustomGameView extends SurfaceView implements SurfaceHolder.Callbac
         bird = new Bird(new Rect(0, 0, 50, 50), birdPoint, getContext());
 
 
+        //Loading the block data
+        loadBlockData();
 
 
         setFocusable(true);
 
     }
+
+
+    private void blockBirdCollision(){
+
+
+        for (Block block : blocks) {
+            if(Rect.intersects(bird.getRectangle(), block.getRectangle())){
+                bird.setHealth(5);
+            }
+        }
+
+
+    }
+
+
+    private void loadBlockData() {
+
+        //Calling the custom class to load the Json array
+        JSONDatabaseManager jsonDatabaseManager = new JSONDatabaseManager(this.getContext());
+        JSONArray jsonArray = jsonDatabaseManager.jsonReadData("jsonDataBase");
+
+        //Adding the blocks on the arena
+        for (int i = 0; i < jsonArray.length(); i++) {
+            blockPoint = new Point(0, 0);
+            blocks.add(new Block(new Rect(0, 0, 50, 50), blockPoint, getContext(), 0));
+            try {
+                blocks.get(i).setJson(jsonArray.getJSONObject(i));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
     private void aiDrone() {
 
@@ -144,28 +187,44 @@ public class CustomGameView extends SurfaceView implements SurfaceHolder.Callbac
     }
 
 
-    public void update(){
+    public void update() {
         bird.update();
 
-        //Updating all the drones
+        //Updating all the bad drones
         for (PlaneBullet aiDrone : aiDrones) {
             aiDrone.update();
         }
+
+        //Updating the blocks
+        for (Block block : blocks) {
+            block.update();
+        }
+
+        //Calling method to handle block and bird collision
+        blockBirdCollision();
+
         //Calling the Drone Method
         aiDrone();
 
     }
 
     @Override
-    public  void  draw(Canvas canvas) {
+    public void draw(Canvas canvas) {
         super.draw(canvas);
 
         canvas.drawBitmap(canvasBackground, 0, 0, null);
 
+        //Drawing the bird
         bird.draw(canvas);
 
+        //Drawing all the bad drones
         for (PlaneBullet aiDrone : aiDrones) {
             aiDrone.draw(canvas);
+        }
+
+        //Drawing the blocks
+        for (Block block : blocks) {
+            block.draw(canvas);
         }
 
     }
