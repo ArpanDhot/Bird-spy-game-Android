@@ -48,7 +48,7 @@ public class Block extends Position implements GameObject {
         this.setyVel(-speed);
 
         //Setting up the birdSprites
-        planeBulletSprite[0] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.lavablock);
+        planeBulletSprite[0] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.block);
 
         //Setting up the points of the rectangle shape. This will draw the four points of the rectangle
         //left, top, right, bottom

@@ -1,11 +1,13 @@
 package com.example.game;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -17,6 +19,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class CustomGameView extends SurfaceView implements SurfaceHolder.Callback {
+
+    private MediaPlayer backGroundMusic;
+    private MediaPlayer birdHitSound;
+    private MediaPlayer birdEatSound;
+    private MediaPlayer birdItemSound;
+    private SharedPreferences sharedPreferences;
+    private boolean musicOnOff;
+    private int musicVolume;
 
     private CustomGameViewThread thread;
     private Random random;
@@ -44,7 +54,29 @@ public class CustomGameView extends SurfaceView implements SurfaceHolder.Callbac
         //Instantiating MainThread class that we made
         thread = new CustomGameViewThread(getHolder(),this);
 
-        canvasBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.mainbackground);
+        canvasBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.backgroundcustomlevel);
+
+        //Instance of the music data
+        sharedPreferences = context.getSharedPreferences("gameSettings", 0);
+        //If the user has not initialised the data base. Therefore it will be returning nothing in that case we will require to have a default value.
+        // In this instance we set it to true, therefore the music is going to be On by default.
+        musicOnOff = sharedPreferences.getBoolean("musicOnOff", true);
+        // In this instance we set it to 50, therefore the music volume is going to have a volume of 50.
+        musicVolume = sharedPreferences.getInt("musicVolume", 50);
+
+        //Setting up the background music
+        backGroundMusic = MediaPlayer.create(context, R.raw.main_background_music); //assigning the track to the MediaPlayer
+        int setVolume = musicVolume; //Choosing volume amount
+        final float volume = (float) (1 - (Math.log(100 - setVolume) / Math.log(100))); //formula for int to volume conversion in form of float
+        backGroundMusic.setVolume(volume, volume); //Setting up the volume . The range of the setVolume method is from 0.0f to 1.0f
+        if (musicOnOff) {
+            backGroundMusic.start();
+        }
+
+        //Setting up the bird hit sound
+        birdHitSound = MediaPlayer.create(context, R.raw.hit); //assigning the track to the MediaPlayer
+
+
 
         random = new Random();
 
@@ -100,7 +132,7 @@ public class CustomGameView extends SurfaceView implements SurfaceHolder.Callbac
 
         if(aiDrones.size()<2){ //checking if there are lees then two bullets than spawn a new bullets
             aiDronePoint = new Point(random.nextInt(2000), random.nextInt(1000)); //Getting the new coordinates and assigning to the ship bullet
-            aiDrones.add(new PlaneBullet(new Rect(0, 0, 30, 30), aiDronePoint, getContext(), bird)); //Adding a new object of ship bullet
+            aiDrones.add(new PlaneBullet(new Rect(0, 0, 30, 30), aiDronePoint, getContext(), bird,2)); //Adding a new object of ship bullet
             aiDrones.get(aiDrones.size() - 1).setyVel(random.nextInt(10));
         }
 
@@ -112,6 +144,12 @@ public class CustomGameView extends SurfaceView implements SurfaceHolder.Callbac
                 bird.setBirdExplosion(true); //Triggering the bird explosion
 
                 //Setting up bird hitting sound
+                int setVolume = musicVolume; //Choosing volume amount
+                final float volume = (float) (1 - (Math.log(100 - setVolume) / Math.log(100))); //formula for int to volume conversion in form of float
+                birdHitSound.setVolume(volume, volume); //Setting up the volume . The range of the setVolume method is from 0.0f to 1.0f
+                if (musicOnOff) {
+                    birdHitSound.start();
+                }
 
             }
         }
@@ -212,7 +250,8 @@ public class CustomGameView extends SurfaceView implements SurfaceHolder.Callbac
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-        canvas.drawBitmap(canvasBackground, 0, 0, null);
+        canvas.drawBitmap(Bitmap.createScaledBitmap(canvasBackground, 2000, 800, true), 0, 0, null);
+
 
         //Drawing the bird
         bird.draw(canvas);

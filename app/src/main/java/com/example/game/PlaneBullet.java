@@ -29,7 +29,7 @@ public class PlaneBullet extends Position implements GameObject {
      * @param rectangle
      * @param point
      */
-    public PlaneBullet(Rect rectangle, Point point, Context context, Bird bird) {
+    public PlaneBullet(Rect rectangle, Point point, Context context, Bird bird, int level) {
         this.rectangle = rectangle;
         this.setxPos(point.x);
         this.setyPos(point.y);
@@ -44,9 +44,17 @@ public class PlaneBullet extends Position implements GameObject {
         this.setxVel(speed);
         this.setyVel(-speed);
 
-        //Setting up the birdSprites
-        planeBulletSprite[0] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.pbl);
-        planeBulletSprite[1] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.pbr);
+        //loading sprites according to level
+        if(level == 1 ){ //for defuel level
+            //Setting up the birdSprites
+            planeBulletSprite[0] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.pbl);
+            planeBulletSprite[1] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.pbr);
+        }else if(level == 2){ //for custom level
+            planeBulletSprite[0] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.ml);
+            planeBulletSprite[1] = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.mr);
+        }
+
+
 
         //Setting up the points of the rectangle shape. This will draw the four points of the rectangle
         //left, top, right, bottom

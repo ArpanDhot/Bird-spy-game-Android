@@ -127,7 +127,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         shipBullets.add(new ShipBullet(new Rect(0, 0, 30, 30), shipBulletPoint, getContext()));
 
         planeBulletPoint = new Point(plane.getxPos() + 100, plane.getyPos() + 100);
-        planeBullets.add(new PlaneBullet(new Rect(0, 0, 30, 30), planeBulletPoint, getContext(), bird));
+        planeBullets.add(new PlaneBullet(new Rect(0, 0, 30, 30), planeBulletPoint, getContext(), bird,1));
 
         //Instance of Cloud
         cloudOne = new Clouds(getContext(), 0);
@@ -194,7 +194,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         if(planeBullets.size()==0){ //checking if there is no bullet than spawn a new bullet
             planeBulletPoint = new Point(plane.getxPos() + 100, plane.getyPos() + 100); //Getting the new coordinates and assigning to the ship bullet
-            planeBullets.add(new PlaneBullet(new Rect(0, 0, 30, 30), planeBulletPoint, getContext(), bird)); //Adding a new object of ship bullet
+            planeBullets.add(new PlaneBullet(new Rect(0, 0, 30, 30), planeBulletPoint, getContext(), bird,1)); //Adding a new object of ship bullet
         }
 
         //To declare the bullet dead if it intersects and reduce the bird health. Sound effect on collision
