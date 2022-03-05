@@ -161,7 +161,7 @@ public class Block extends Position implements GameObject {
         try {
             json.put("objectName", JSONObj);
             json.put("posX", this.getxPos());
-            json.put("posY", this.getxPos());
+            json.put("posY", this.getyPos());
             json.put("velX", this.getxVel());
             json.put("velY", this.getyVel());
             json.put("spriteSize", this.getSpriteSize());
