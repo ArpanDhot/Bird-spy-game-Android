@@ -23,7 +23,7 @@ public class Block extends Position implements GameObject {
     private double oldXPos = 0;
     private double oldYPos = 0;
     private int speed = 4;
-    private int birdDamage = 5;
+    private int birdDamage = 1;
     private int spriteSize;
 
 
@@ -65,7 +65,7 @@ public class Block extends Position implements GameObject {
 
         //Drawing the block
         //I am subtracting 15(width and height if the sprite) from x and y pos. The reason is to align the rectangle with the sprite so the collision will work exactly right visually.
-        canvas.drawBitmap(resizedBitmap0, this.getxPos() - 15, this.getyPos() - 15, null);
+        canvas.drawBitmap(resizedBitmap0, this.getxPos() - 60, this.getyPos() - 60, null);
 
     }
 
@@ -181,7 +181,7 @@ public class Block extends Position implements GameObject {
             this.setxVel(json.getInt("velX"));
             this.setyVel(json.getInt("velY"));
             this.setSpriteSize(json.getInt("spriteSize"));
-            this.rectangle.set(0, 0, json.getInt("spriteSize"), json.getInt("spriteSize"));
+            this.rectangle.set((this.getxPos() - json.getInt("spriteSize") / 2) , (this.getyPos() - json.getInt("spriteSize") / 2) , (this.getxPos() + json.getInt("spriteSize") / 2), (this.getyPos() + json.getInt("spriteSize") / 2));
 
         } catch (JSONException e) {
             e.printStackTrace();

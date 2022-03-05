@@ -100,7 +100,7 @@ public class CustomGameView extends SurfaceView implements SurfaceHolder.Callbac
 
         for (Block block : blocks) {
             if(Rect.intersects(bird.getRectangle(), block.getRectangle())){
-                bird.setHealth(5);
+                bird.setHealth(bird.getHealth() - block.getBirdDamage());
             }
         }
 
