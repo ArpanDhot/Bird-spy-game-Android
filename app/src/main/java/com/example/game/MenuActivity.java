@@ -64,7 +64,8 @@ public class MenuActivity extends AppCompatActivity {
 
         helpButton = findViewById(R.id.helpButton);
         helpButton.setOnClickListener(e -> {
-
+            Intent helpIntent = new Intent(MenuActivity.this,Help.class);
+            startActivity(helpIntent);
         });
     }
 }

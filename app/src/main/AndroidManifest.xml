@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Game">
         <activity
+            android:name=".Help"
+            android:exported="false" />
+        <activity
             android:name=".GameOver"
             android:exported="false" />
         <activity
