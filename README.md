@@ -1,4 +1,4 @@
-## Drone simulator Java
+## Bird Spy Game Android
 The bird spy game was made using native Android. It is a 2D game that follows the puzzle, casual, and strategy shooter theme. The game consists of a bird being a controllable character, and its purpose is to survive from the enemies while collecting and storing the collected food in the tree. The application employs concepts of Object Oriented Programming to create blueprints for several objects in the game.
 
 ### Object Oriented Programming implantation overview
