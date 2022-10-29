@@ -21,8 +21,8 @@ The majority of the classes in this project incorporate encapsulation. This conc
 ![about](/Demo/cc3044ee9322070418fc.gif)
 
 
-### Instruction to play the simulation
-- To play the simulation, download the "DroneSimulator-Jar.zip" file, and download the [JavaFx library](https://gluonhq.com/products/javafx/) on your device. 
-- Right-click on the "run.bat" and press edit to upate the JavaFx library path. 
-- Double-click on the DroneSimulator.jar file to run the game.
+### Instruction to play the game
+- To play the game, download the "bird-spy-apk.zip" file on your device. 
+- Extract the APK file from the zip file. 
+- Install the application on your android device.
 
