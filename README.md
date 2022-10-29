@@ -20,6 +20,7 @@ The majority of the classes in this project incorporate encapsulation. This conc
 ### Gameplay
 ![about](/Demo/20221029.gif)
 ### Creating custom level
+![about](/Demo/2293059546.gif)
 
 ### Instruction to play the game
 - To play the game, download the "bird-spy-apk.zip" file on your device. 
