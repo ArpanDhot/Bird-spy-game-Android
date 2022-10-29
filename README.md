@@ -17,7 +17,7 @@ The majority of the classes in this project incorporate encapsulation. This conc
 
 
 ## Application Demo
-![about](/Demo/2022102925408.gif)
+![about](/Demo/20221029.gif)
 
 
 ### Instruction to play the game
