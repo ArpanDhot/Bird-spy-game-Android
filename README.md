@@ -12,7 +12,6 @@ The majority of the classes in this project incorporate encapsulation. This conc
 - User-movable objects
 - Custom-level creation
 - Level save and load using JSON
-- Button to play sound
 - Sound control settings
 - Automatically save sound settings
 
